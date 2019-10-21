@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      src="https://kit.fontawesome.com/9c1c9cdf2e.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="main.css" />
+    <title>Tic Tac Toe</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Tic Tac Toe</h1>
+      <div class="gameWrap"></div>
+      <div class="nameForm">
+        <input type="text" class="p1 name" value="Player 1" />
+        <input type="text" class="p2 name" value="Player 2" />
+        <button class="ready">Ready</button>
+      </div>
+      <div class="gameType">
+        <div class="cpu">
+          <i class="fas fa-user"></i>
+          <p>1 Player</p>
+        </div>
+        <div class="twoPlayer">
+          <i class="fas fa-user-friends"></i>
+          <p>2 Player</p>
+        </div>
+      </div>
+    </div>
+    <div class="end-screen">
+      <h3 class="player-name">Player 1 Wins!</h3>
+      <button class="restart">Restart</button>
+      <button class="newGame">New Game</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
