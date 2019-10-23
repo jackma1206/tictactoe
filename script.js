@@ -5,6 +5,7 @@ const twoPlayer = document.querySelector(".twoPlayer");
 const nameForm = document.querySelector(".nameForm");
 const gameType = document.querySelector(".gameType");
 const gameWrap = document.querySelector(".gameWrap");
+const scoreBoard = document.querySelector(".scoreboard-wrap");
 twoPlayer.addEventListener("click", function() {
   gameType.style.opacity = "0";
 });
@@ -13,10 +14,19 @@ gameType.addEventListener("transitionend", detectEnd, false);
 readyButton.addEventListener("click", function() {
   const p1n = document.querySelector(".p1").value;
   const p2n = document.querySelector(".p2").value;
+  const p1Name = document.querySelector(".p1-name");
+  const p2Name = document.querySelector(".p2-name");
+  const p1Score = document.querySelector(".p1-score");
+  const p2Score = document.querySelector(".p2-score");
 
   game = newGame();
   p1 = newPlayer(p1n, game.x);
   p2 = newPlayer(p2n, game.o);
+  p1Name.textContent = p1n;
+  p2Name.textContent = p2n;
+  p1Score.textContent = p1.counter;
+  p2Score.textContent = p2.counter;
+  scoreBoard.style.display = "flex";
   displayController.renderBoard();
   nameForm.style.opacity = "0";
 });
@@ -69,6 +79,17 @@ const displayController = (() => {
   const showWinner = player => {
     const pName = document.querySelector(".player-name");
     const endScreen = document.querySelector(".end-screen");
+    const p1Score = document.querySelector(".p1-score");
+    const p2Score = document.querySelector(".p2-score");
+    if (p1.name == player) {
+      p1.counter++;
+      p1Score.textContent = p1.counter;
+      p2Score.textContent = p2.counter;
+    } else {
+      p2.counter++;
+      p1Score.textContent = p1.counter;
+      p2Score.textContent = p2.counter;
+    }
     pName.innerHTML = `${player} wins!`;
     endScreen.style.display = "flex";
     reset();
@@ -87,9 +108,13 @@ const displayController = (() => {
     const newG = document.querySelector(".newGame");
     const endScreen = document.querySelector(".end-screen");
     const gameWrap = document.querySelector(".gameWrap");
-
+    const p1info = document.querySelector(".player1-info");
+    const p2info = document.querySelector(".player2-info");
+    const p1Score = document.querySelector(".p1-score");
+    const p2Score = document.querySelector(".p2-score");
     restart.addEventListener("click", function() {
       endScreen.style.display = "none";
+
       game = newGame();
       renderBoard();
     });
@@ -99,6 +124,11 @@ const displayController = (() => {
       nameForm.style.display = "none";
       gameType.style.display = "flex";
       gameType.style.opacity = "1";
+      p2info.style.background = "#ecaf4f";
+      p1info.style.background - "#353946";
+      p1Score.textContent = "0";
+      p2Score.textContent = "0";
+      scoreBoard.style.display = "none";
     });
   };
 
@@ -106,7 +136,8 @@ const displayController = (() => {
 })();
 
 const newPlayer = (name, xoro) => {
-  return { name, xoro };
+  let counter = 0;
+  return { name, xoro, counter };
 };
 
 function handleSquareClick() {
@@ -118,6 +149,8 @@ function handleSquareClick() {
   let removeMe = this.querySelector(".overlay-text");
   this.classList.remove("square-overlay");
   this.removeChild(removeMe);
+  const p1info = document.querySelector(".player1-info");
+  const p2info = document.querySelector(".player2-info");
 
   if (game.counter % 2 == 0) {
     this.classList.add("marked-square", "x");
@@ -126,12 +159,16 @@ function handleSquareClick() {
 
     game.gameBoard[this.dataset.id] = game.x;
     game.winnerCheck(p1.name, p1.xoro);
+    p2info.style.background = "#ecaf4f";
+    p1info.style.background = "#353946";
   } else {
     this.classList.add("marked-square", "o");
     squareText.classList.add("far");
     squareText.innerHTML = game.o;
     game.gameBoard[this.dataset.id] = game.o;
     game.winnerCheck(p2.name, p2.xoro);
+    p1info.style.background = "#dc685a";
+    p2info.style.background = "#353946";
   }
   this.appendChild(squareText);
   game.counter++;
